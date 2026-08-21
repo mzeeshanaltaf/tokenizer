@@ -9,16 +9,18 @@ import type { CountRange } from "./types";
  * client-side, so Claude is an openly-labelled estimate and the UI never shows
  * it as a point value.
  *
- * A flat multiplier would be wrong almost everywhere. tiktoken-family
- * tokenizers undercount Claude by roughly 15-20% on English prose, but by
- * considerably more on code and on non-Latin scripts, where Claude's vocabulary
- * has thinner coverage than o200k_base. So the text is split into runs by
- * character class, each run is counted with o200k_base, and a per-class factor
- * is applied before summing.
+ * A flat multiplier would be wrong almost everywhere, and how wrong varies by
+ * character class in ways that do not follow a single tidy narrative: measured
+ * against the real endpoint, English prose and code inflate by roughly 45-55%
+ * over o200k_base, CJK by about 25%, and non-Latin scripts anywhere from a
+ * slight *under*count (Cyrillic) to more than double (Thai). So the text is
+ * split into runs by character class, each run is counted with o200k_base, and
+ * a per-class factor is applied before summing.
  *
- * IMPORTANT: the factors below are literature-derived defaults, not
- * measurements taken against the real endpoint. `scripts/calibrate-anthropic.mjs`
- * refits them from a corpus if you have a key and ten minutes.
+ * The factors below are measurements, taken by `scripts/calibrate-anthropic.mjs`
+ * against `messages.count_tokens`, not literature-derived guesses. Re-run that
+ * script against a fresh corpus periodically, since Anthropic can retrain the
+ * tokenizer without announcing it.
  */
 
 export type CharClass = "latin" | "code" | "cjk" | "otherScript" | "emojiSymbol";
@@ -40,34 +42,34 @@ export interface ClassFactor {
  */
 export const CALIBRATION: Record<CharClass, ClassFactor> = {
   latin: {
-    low: 1.1,
-    mid: 1.16,
-    high: 1.24,
-    note: "English and Latin-script prose. Community comparisons of Anthropic's count_tokens against tiktoken consistently land in the +10% to +25% band, tightest on ordinary prose.",
+    low: 1.473,
+    mid: 1.474,
+    high: 1.709,
+    note: "Fitted against claude-sonnet-5 count_tokens over 21 samples on 2026-08-21; spread from 7 latin-dominant sample(s).",
   },
   code: {
-    low: 1.15,
-    mid: 1.3,
-    high: 1.45,
-    note: "Source code. Wider than prose because the gap depends heavily on identifier style, indentation width, and how much punctuation the language uses.",
+    low: 1.323,
+    mid: 1.523,
+    high: 1.694,
+    note: "Fitted against claude-sonnet-5 count_tokens over 21 samples on 2026-08-21; spread from 5 code-dominant sample(s).",
   },
   cjk: {
-    low: 1.3,
-    mid: 1.55,
-    high: 1.85,
-    note: "Chinese, Japanese, Korean. o200k_base added substantial CJK vocabulary that Claude's tokenizer does not appear to match, so this is the widest and least certain class.",
+    low: 1.088,
+    mid: 1.255,
+    high: 1.496,
+    note: "Fitted against claude-sonnet-5 count_tokens over 21 samples on 2026-08-21; spread from 4 cjk-dominant sample(s).",
   },
   otherScript: {
-    low: 1.15,
-    mid: 1.35,
-    high: 1.6,
-    note: "Cyrillic, Greek, Arabic, Hebrew, Devanagari, Thai and other non-Latin alphabets. Between prose and CJK in both size and confidence.",
+    low: 0.776,
+    mid: 1.072,
+    high: 2.153,
+    note: "Fitted against claude-sonnet-5 count_tokens over 21 samples on 2026-08-21; spread from 5 otherScript-dominant sample(s).",
   },
   emojiSymbol: {
-    low: 1.0,
-    mid: 1.2,
-    high: 1.45,
-    note: "Emoji, pictographs, box drawing and other symbols. Usually byte-fallback in both tokenizers, so the two are often close, but joined emoji sequences diverge.",
+    low: 1.259,
+    mid: 1.55,
+    high: 1.84,
+    note: "Fitted against claude-sonnet-5 count_tokens over 21 samples on 2026-08-21; spread from 0 emojiSymbol-dominant sample(s).",
   },
 };
 

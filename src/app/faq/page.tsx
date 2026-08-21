@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { JsonLd } from "@/components/json-ld";
-import { CONTEXT_ROWS, FAQS, VOCAB_ROWS } from "@/lib/faqs";
+import { FAQS, VOCAB_ROWS } from "@/lib/faqs";
 import { TOKENIZER_ASSETS } from "@/lib/models";
 import { faqSchema } from "@/lib/structured-data";
 
@@ -55,20 +55,6 @@ export default function FaqPage() {
         </p>
         <div className="mt-4">
           <Table head={["Models", "Tokenizer", "Vocabulary"]} rows={VOCAB_ROWS} />
-        </div>
-      </section>
-
-      <section className="mt-12">
-        <h2 className="text-[1.125rem] font-semibold tracking-[-0.01em]">
-          Context windows
-        </h2>
-        <p className="mt-3 text-[0.875rem] leading-[1.6] text-muted-foreground">
-          Input limits for families with stable published figures. Newer releases
-          move fast, so check the provider&apos;s own documentation before you
-          design around a number.
-        </p>
-        <div className="mt-4">
-          <Table head={["Model", "Input tokens"]} rows={CONTEXT_ROWS} />
         </div>
       </section>
     </div>

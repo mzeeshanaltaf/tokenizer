@@ -1,0 +1,25 @@
+Team update for this week 🚀
+
+✅ Shipped the new checkout flow — conversion is already up 12% 📈
+✅ Fixed the login bug that was blocking mobile users 📱🐛➡️✔️
+🔄 Still working on the search redesign, ETA Friday 🔍🎨
+❌ Payments integration slipped again, third time now 😬💳
+
+Blockers:
+🚧 Waiting on design review for the settings page
+🚧 Need someone from infra to unblock the staging deploy 🖥️⚙️
+
+Shoutouts 🎉
+👏 to @jamie for catching that edge case before it hit prod
+👏 to @sam for the late-night incident response 🔥🧯 → 🟢
+
+Mood of the sprint: 😅➡️😤➡️🎉 (rough start, hard middle, good finish)
+
+Next week priorities, roughly in order:
+1️⃣ Search redesign ship 🚢
+2️⃣ Payments fix, no more slipping this time 🙏
+3️⃣ Start planning Q3 roadmap 🗺️📊
+
+Coffee count this week: ☕☕☕☕☕☕☕ (send help)
+
+That's all for now, see everyone at standup tomorrow 👋😴

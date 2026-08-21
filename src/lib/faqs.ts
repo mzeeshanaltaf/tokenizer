@@ -63,16 +63,3 @@ export const VOCAB_ROWS: Array<[string, string, string]> = [
   ["Qwen3", "Qwen3", "151,643"],
   ["DeepSeek-V3, DeepSeek-R1", "DeepSeek V3", "128,000"],
 ];
-
-export const CONTEXT_ROWS: Array<[string, string]> = [
-  ["GPT-4.1", "1,047,576"],
-  ["GPT-4o, GPT-4 Turbo", "128,000"],
-  ["o3", "200,000"],
-  ["GPT-3.5 Turbo", "16,385"],
-  ["Claude 4 family", "200,000"],
-  ["Gemini 2.5 Pro", "1,048,576"],
-  ["Llama 4 Scout", "10,000,000"],
-  ["Llama 3.3, Llama 3.1", "128,000"],
-  ["Mistral Large 2", "128,000"],
-  ["DeepSeek-V3", "128,000"],
-];

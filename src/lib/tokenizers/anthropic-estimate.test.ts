@@ -20,9 +20,13 @@ describe("CALIBRATION", () => {
     }
   });
 
-  it("never claims Claude uses fewer tokens than o200k", () => {
+  it("never claims Claude uses fewer tokens than o200k on average", () => {
+    // The `low` bound of a class can dip under 1 (measured: Cyrillic prose
+    // tokenizes slightly *more* efficiently in Claude than in o200k_base), but
+    // the class's central estimate must not, or the headline count would read
+    // as an undercount for an ordinary sample.
     for (const [name, factor] of Object.entries(CALIBRATION)) {
-      expect(factor.low, name).toBeGreaterThanOrEqual(1);
+      expect(factor.mid, name).toBeGreaterThanOrEqual(1);
     }
   });
 
@@ -158,20 +162,26 @@ describe("estimateAnthropicTokens", () => {
     expect(range.mid).toBe(Math.round(base * CALIBRATION.cjk.mid));
   });
 
-  it("scores CJK higher per token than prose", () => {
+  it("scores CJK differently per token than prose, by the calibrated factor", () => {
+    // Measured against the real endpoint, CJK does not simply cost more than
+    // Latin prose (see the CALIBRATION note above), so this only asserts that
+    // the per-class factor is what drives the difference, not a direction.
     const prose = "the quick brown fox jumps over the lazy dog again and again";
     const cjk = "世界你好今天天气很好我们一起去公园散步吧看看风景";
     const proseRatio = estimate(prose).mid / countBase(prose);
     const cjkRatio = estimate(cjk).mid / countBase(cjk);
-    expect(cjkRatio).toBeGreaterThan(proseRatio);
+    expect(cjkRatio).toBeCloseTo(CALIBRATION.cjk.mid, 1);
+    expect(proseRatio).toBeCloseTo(CALIBRATION.latin.mid, 1);
+    expect(cjkRatio).not.toBeCloseTo(proseRatio, 1);
   });
 
-  it("scores code higher per token than prose", () => {
+  it("scores code differently per token than prose, by the calibrated factor", () => {
     const prose = "the quick brown fox jumps over the lazy dog again and again";
     const code = "const result = compute(a, b); if (result > 0) { return result; }";
     const proseRatio = estimate(prose).mid / countBase(prose);
     const codeRatio = estimate(code).mid / countBase(code);
-    expect(codeRatio).toBeGreaterThan(proseRatio);
+    expect(codeRatio).toBeCloseTo(CALIBRATION.code.mid, 1);
+    expect(proseRatio).toBeCloseTo(CALIBRATION.latin.mid, 1);
   });
 
   it("does not shrink as prose is appended", () => {

@@ -1,0 +1,14 @@
+Subject: Q3 Vendor Consolidation Review
+
+Team,
+
+Following up on last week's discussion, I've put together a summary of where we stand on vendor consolidation ahead of the Q3 budget review. Overall the picture is encouraging, but there are a few items that need decisions before we can finalize the numbers for the board.
+
+We've successfully migrated our logistics tracking from three regional providers down to a single national contract, which should reduce our per-shipment overhead by roughly eighteen percent starting next quarter. The transition wasn't entirely smooth; two of our regional warehouses reported integration delays in the first two weeks, and we had to extend the parallel-run period by ten days to avoid any disruption to fulfillment. Those issues are now resolved, and the new provider has agreed to a service credit covering the affected period.
+
+On the software side, we are still evaluating whether to consolidate our customer support and ticketing tools under a single vendor. The finance team's preliminary analysis suggests a combined contract could save approximately forty thousand dollars annually, but the support team has raised concerns about feature parity, particularly around the reporting dashboards their leads rely on for weekly reviews. I'd like to schedule a joint session between finance and support before we commit to anything, ideally before the fifteenth so we have time to negotiate terms before the current contracts renew.
+
+Please review the attached spreadsheet and send any questions before Thursday's meeting. As always, flag anything that looks off rather than waiting for the call.
+
+Best,
+Operations
