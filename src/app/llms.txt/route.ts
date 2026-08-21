@@ -64,8 +64,7 @@ ${providerLines}
 
 ${assetLines}
 
-Plus o200k_base, o200k_harmony and cl100k_base, which are bundled with the page
-and need no download.
+Plus o200k_base, which is bundled with the page and needs no download.
 
 ## Key facts
 

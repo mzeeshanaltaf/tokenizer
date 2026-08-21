@@ -16,7 +16,8 @@ export type ProviderId =
   | "meta"
   | "mistral"
   | "qwen"
-  | "deepseek";
+  | "deepseek"
+  | "zai";
 
 export interface Provider {
   id: ProviderId;
@@ -31,6 +32,7 @@ export const PROVIDERS: Provider[] = [
   { id: "mistral", name: "Mistral" },
   { id: "qwen", name: "Qwen" },
   { id: "deepseek", name: "DeepSeek" },
+  { id: "zai", name: "Z.ai" },
 ];
 
 /** Encodings bundled with `gpt-tokenizer`. No download, no network. */
@@ -100,11 +102,18 @@ export const TOKENIZER_ASSETS: Record<string, TokenizerAsset> = {
     bytes: 9_117_040,
     mode: "byte-level",
   },
-  "deepseek-v3": {
-    id: "deepseek-v3",
-    repo: "deepseek-ai/DeepSeek-V3",
-    label: "DeepSeek V3, 128k vocabulary",
-    bytes: 7_847_652,
+  "deepseek-v4": {
+    id: "deepseek-v4",
+    repo: "deepseek-ai/DeepSeek-V4-Pro",
+    label: "DeepSeek V4, 128k vocabulary",
+    bytes: 6_367_146,
+    mode: "byte-level",
+  },
+  "glm-5": {
+    id: "glm-5",
+    repo: "zai-org/GLM-5.2",
+    label: "GLM-5, 154k vocabulary",
+    bytes: 20_217_442,
     mode: "byte-level",
   },
 };
@@ -129,89 +138,53 @@ export interface ModelEntry {
 const EXACT_LOCAL_WHY =
   "This model's own tokenizer is published and runs on this page, so the count, the boundaries and the IDs are the real ones.";
 
-const OPENAI_O200K: Array<[string, string]> = [
-  ["gpt-5.6-sol", "GPT-5.6 Sol"],
-  ["gpt-5.6-terra", "GPT-5.6 Terra"],
-  ["gpt-5.6-luna", "GPT-5.6 Luna"],
-  ["gpt-5.5", "GPT-5.5"],
-  ["gpt-5.5-pro", "GPT-5.5 Pro"],
-  ["gpt-5.4", "GPT-5.4"],
-  ["gpt-5.4-mini", "GPT-5.4 mini"],
-  ["gpt-5.4-nano", "GPT-5.4 nano"],
-  ["gpt-5.3-codex", "GPT-5.3-Codex"],
-  ["gpt-5.2", "GPT-5.2"],
-  ["gpt-5.2-pro", "GPT-5.2 Pro"],
-  ["gpt-5.1", "GPT-5.1"],
-  ["gpt-5", "GPT-5"],
-  ["gpt-4.1", "GPT-4.1"],
-  ["gpt-4.1-mini", "GPT-4.1 mini"],
-  ["gpt-4o", "GPT-4o"],
-  ["gpt-4o-mini", "GPT-4o mini"],
-  ["o3", "o3"],
-  ["o4-mini", "o4-mini"],
-];
-
-const OPENAI_HARMONY: Array<[string, string]> = [
-  ["gpt-oss-120b", "gpt-oss-120b"],
-  ["gpt-oss-20b", "gpt-oss-20b"],
-];
-
-const OPENAI_CL100K: Array<[string, string]> = [
-  ["gpt-4-turbo", "GPT-4 Turbo"],
-  ["gpt-4", "GPT-4"],
-  ["gpt-3.5-turbo", "GPT-3.5 Turbo"],
-];
-
-const ANTHROPIC: Array<[string, string]> = [
-  ["claude-opus-5", "Claude Opus 5"],
-  ["claude-sonnet-5", "Claude Sonnet 5"],
-  ["claude-opus-4.8", "Claude Opus 4.8"],
-  ["claude-opus-4.7", "Claude Opus 4.7"],
-  ["claude-opus-4.6", "Claude Opus 4.6"],
-  ["claude-sonnet-4.6", "Claude Sonnet 4.6"],
-  ["claude-haiku-4.5", "Claude Haiku 4.5"],
-];
-
-const GEMINI: Array<[string, string]> = [
-  ["gemini-3.7-pro", "Gemini 3.7 Pro"],
-  ["gemini-3.6", "Gemini 3.6"],
-  ["gemini-3.5-flash", "Gemini 3.5 Flash"],
-  ["gemini-3.1-pro", "Gemini 3.1 Pro"],
-  ["gemini-2.5-pro", "Gemini 2.5 Pro"],
-  ["gemini-2.5-flash", "Gemini 2.5 Flash"],
-];
-
-function openAiGroup(
-  entries: Array<[string, string]>,
-  encoding: OpenAiEncoding,
-): ModelEntry[] {
-  return entries.map(([id, name]) => ({
-    id,
-    name,
-    provider: "openai" as const,
-    tier: "exact" as const,
-    source: { kind: "openai" as const, encoding },
-    tokenizerName: encoding,
-    why: EXACT_LOCAL_WHY,
-  }));
-}
-
 export const MODELS: ModelEntry[] = [
-  ...openAiGroup(OPENAI_O200K, "o200k_base"),
-  ...openAiGroup(OPENAI_HARMONY, "o200k_harmony"),
-  ...openAiGroup(OPENAI_CL100K, "cl100k_base"),
+  {
+    id: "gpt-5.x",
+    name: "GPT-5.x",
+    provider: "openai",
+    tier: "exact",
+    source: { kind: "openai", encoding: "o200k_base" },
+    tokenizerName: "o200k_base",
+    why: "Every GPT-5 point release, from 5 and 5.1 through 5.6, and every mini, nano, pro and codex size in between, ships the identical o200k_base vocabulary. One entry covers the whole line with the real tokenizer rather than listing each name separately.",
+  },
 
-  ...ANTHROPIC.map(
-    ([id, name]): ModelEntry => ({
-      id,
-      name,
-      provider: "anthropic",
-      tier: "estimate",
-      source: { kind: "anthropic-estimate" },
-      tokenizerName: "calibrated estimator",
-      why: "Anthropic does not publish a tokenizer, and its only exact count needs an API key and a round trip to a server. This page never sends your text anywhere, so Claude is estimated per script and shown as a range.",
-    }),
-  ),
+  {
+    id: "claude-opus-5",
+    name: "Claude Opus 5",
+    provider: "anthropic",
+    tier: "estimate",
+    source: { kind: "anthropic-estimate" },
+    tokenizerName: "calibrated estimator",
+    why: "Anthropic does not publish a tokenizer, and its only exact count needs an API key and a round trip to a server. This page never sends your text anywhere, so Claude is estimated per script and shown as a range.",
+  },
+  {
+    id: "claude-sonnet-5",
+    name: "Claude Sonnet 5",
+    provider: "anthropic",
+    tier: "estimate",
+    source: { kind: "anthropic-estimate" },
+    tokenizerName: "calibrated estimator",
+    why: "Anthropic does not publish a tokenizer, and its only exact count needs an API key and a round trip to a server. This page never sends your text anywhere, so Claude is estimated per script and shown as a range.",
+  },
+  {
+    id: "claude-fable-5",
+    name: "Claude Fable 5",
+    provider: "anthropic",
+    tier: "estimate",
+    source: { kind: "anthropic-estimate" },
+    tokenizerName: "calibrated estimator",
+    why: "Anthropic does not publish a tokenizer, and its only exact count needs an API key and a round trip to a server. This page never sends your text anywhere, so Claude is estimated per script and shown as a range.",
+  },
+  {
+    id: "claude-haiku-4.5",
+    name: "Claude Haiku 4.5",
+    provider: "anthropic",
+    tier: "estimate",
+    source: { kind: "anthropic-estimate" },
+    tokenizerName: "calibrated estimator",
+    why: "Anthropic does not publish a tokenizer, and its only exact count needs an API key and a round trip to a server. This page never sends your text anywhere, so Claude is estimated per script and shown as a range.",
+  },
 
   {
     id: "gemma-3",
@@ -222,17 +195,15 @@ export const MODELS: ModelEntry[] = [
     tokenizerName: "Gemma 3",
     why: EXACT_LOCAL_WHY,
   },
-  ...GEMINI.map(
-    ([id, name]): ModelEntry => ({
-      id,
-      name,
-      provider: "google",
-      tier: "proxy",
-      source: { kind: "hf", asset: "gemma-3" },
-      tokenizerName: "Gemma 3, standing in",
-      why: "Google does not publish a tokenizer for Gemini. Gemma 3 is the open model from the same family and the closest published stand-in, so the boundaries below are real Gemma boundaries rather than Gemini's.",
-    }),
-  ),
+  {
+    id: "gemini-3.x",
+    name: "Gemini 3.x",
+    provider: "google",
+    tier: "proxy",
+    source: { kind: "hf", asset: "gemma-3" },
+    tokenizerName: "Gemma 3, standing in",
+    why: "Google does not publish a tokenizer for Gemini. Gemma 3 is the open model from the same family and the closest published stand-in, so the boundaries below are real Gemma boundaries rather than Gemini's. Every Gemini 3 point release and size (3.1 Pro, 3.5 Flash, 3.6, 3.7 Pro) would be counted identically, so one entry covers the line.",
+  },
 
   {
     id: "llama-4-scout",
@@ -310,26 +281,27 @@ export const MODELS: ModelEntry[] = [
   },
 
   {
-    id: "deepseek-v3",
-    name: "DeepSeek-V3",
+    id: "deepseek-v4",
+    name: "DeepSeek-V4",
     provider: "deepseek",
     tier: "exact",
-    source: { kind: "hf", asset: "deepseek-v3" },
-    tokenizerName: "DeepSeek V3",
+    source: { kind: "hf", asset: "deepseek-v4" },
+    tokenizerName: "DeepSeek V4",
     why: EXACT_LOCAL_WHY,
   },
+
   {
-    id: "deepseek-r1",
-    name: "DeepSeek-R1",
-    provider: "deepseek",
+    id: "glm-5.x",
+    name: "GLM-5.x",
+    provider: "zai",
     tier: "exact",
-    source: { kind: "hf", asset: "deepseek-v3" },
-    tokenizerName: "DeepSeek V3",
-    why: "DeepSeek-R1 ships a byte-identical tokenizer to DeepSeek-V3, so one download serves both.",
+    source: { kind: "hf", asset: "glm-5" },
+    tokenizerName: "GLM-5",
+    why: "GLM-5, 5.1 and 5.2 all ship the identical published vocabulary, so this one entry is the real tokenizer for the whole line rather than three near-duplicate listings.",
   },
 ];
 
-export const DEFAULT_MODEL_ID = "gpt-5.6-sol";
+export const DEFAULT_MODEL_ID = "gpt-5.x";
 
 const BY_ID = new Map(MODELS.map((model) => [model.id, model]));
 

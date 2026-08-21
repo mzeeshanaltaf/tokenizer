@@ -30,18 +30,24 @@ wrong integers is worse than showing nothing.
 
 | Provider | Models | Tokenizer | Tier |
 |---|---|---|---|
-| OpenAI | GPT-5.6 Sol / Terra / Luna, 5.5 (+Pro), 5.4 (+mini/nano), 5.3-Codex, 5.2 (+Pro), 5.1, 5, GPT-4.1 (+mini), GPT-4o (+mini), o3, o4-mini | `o200k_base` | exact |
-| OpenAI | gpt-oss-120b, gpt-oss-20b | `o200k_harmony` | exact |
-| OpenAI | GPT-4 Turbo, GPT-4, GPT-3.5 Turbo | `cl100k_base` | exact |
-| Anthropic | Opus 5, Sonnet 5, Opus 4.8 / 4.7 / 4.6, Sonnet 4.6, Haiku 4.5 | calibrated estimator | **estimate** |
+| OpenAI | GPT-5.x (every 5.x point release and size, one entry) | `o200k_base` | exact |
+| Anthropic | Opus 5, Sonnet 5, Fable 5, Haiku 4.5 | calibrated estimator | **estimate** |
 | Google | Gemma 3 | Gemma 3 | exact |
-| Google | Gemini 3.7 Pro, 3.6, 3.5 Flash, 3.1 Pro, 2.5 Pro / Flash | Gemma 3 | **proxy** |
+| Google | Gemini 3.x (every 3.x point release and size, one entry) | Gemma 3 | **proxy** |
 | Meta | Llama 4 Scout / Maverick | Llama 4 | exact |
 | Meta | Llama 3.3 70B, Llama 3.1 | Llama 3.1 | exact |
 | Mistral | Mistral Large 2 | Mistral v3 | exact |
 | Mistral | Mistral Small 3, Mistral Nemo | tekken | exact |
 | Qwen | Qwen3 | Qwen3 | exact |
-| DeepSeek | DeepSeek-V3, DeepSeek-R1 | DeepSeek V3 | exact |
+| DeepSeek | DeepSeek-V4 | DeepSeek V4 | exact |
+| Z.ai | GLM-5.x (every 5.x point release, one entry) | GLM-5 | exact |
+
+Models superseded by a newer generation already in this table (o3, GPT-4.1,
+GPT-4o, gpt-oss, Gemini 2.5, Claude Opus/Sonnet 4.x, DeepSeek-V3/R1, and
+anything else more than a year old) have been dropped rather than kept as
+dead weight. Where several point releases or sizes of the same current model
+share one tokenizer byte-for-byte (GPT-5.x, Gemini 3.x, GLM-5.x), they are
+listed once instead of once per name.
 
 OpenAI encodings ship with the page. The rest are fetched from the Hugging Face
 Hub on first use, with the real file size shown before the download starts, then

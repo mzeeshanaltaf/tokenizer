@@ -52,14 +52,13 @@ export const FAQS: Faq[] = [
  * tests so the table cannot drift away from the tokenizers actually shipping.
  */
 export const VOCAB_ROWS: Array<[string, string, string]> = [
-  ["GPT-5.x, GPT-4.1, GPT-4o, o3", "o200k_base", "200,006"],
-  ["gpt-oss-120b, gpt-oss-20b", "o200k_harmony", "201,089"],
-  ["GPT-4, GPT-3.5 Turbo", "cl100k_base", "100,264"],
-  ["Gemma 3, and Gemini by proxy", "Gemma 3", "262,144"],
+  ["GPT-5.x", "o200k_base", "200,006"],
+  ["Gemma 3, and Gemini 3.x by proxy", "Gemma 3", "262,144"],
   ["Llama 4", "Llama 4", "200,000"],
   ["Llama 3.3, Llama 3.1", "Llama 3.1", "128,000"],
   ["Mistral Small 3, Mistral Nemo", "tekken", "131,072"],
   ["Mistral Large 2", "Mistral v3", "32,768"],
   ["Qwen3", "Qwen3", "151,643"],
-  ["DeepSeek-V3, DeepSeek-R1", "DeepSeek V3", "128,000"],
+  ["DeepSeek-V4", "DeepSeek V4", "128,000"],
+  ["GLM-5.x", "GLM-5", "154,820"],
 ];
