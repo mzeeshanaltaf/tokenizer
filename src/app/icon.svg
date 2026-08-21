@@ -1,0 +1,11 @@
+<svg width="256" height="256" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+  <rect width="256" height="256" rx="54" fill="#211d16"/>
+  <!-- A dimension between two jaws: the act of measuring a span. -->
+  <g stroke="#e0a83a" stroke-width="16" stroke-linecap="round" fill="none">
+    <path d="M56 56 V200"/>
+    <path d="M200 56 V200"/>
+    <path d="M56 128 H200"/>
+    <path d="M92 104 L64 128 L92 152"/>
+    <path d="M164 104 L192 128 L164 152"/>
+  </g>
+</svg>
