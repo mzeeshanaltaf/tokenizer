@@ -10,7 +10,7 @@ import { SITE_NAME } from "@/lib/site";
  */
 
 export const alt =
-  "Token Counter: count tokens for GPT, Claude, Gemini and Llama in your browser, with token boundaries shown as highlighted chips";
+  "Token Counter: count tokens for GPT-5, Claude, Gemini and Llama in your browser, with token boundaries shown as highlighted chips";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -63,7 +63,7 @@ export default function OpengraphImage() {
               maxWidth: 940,
             }}
           >
-            Count tokens for GPT, Claude, Gemini and Llama
+            Count tokens for GPT-5, Claude, Gemini and Llama
           </div>
 
           {/* A real token stream, so the card shows the product working. */}

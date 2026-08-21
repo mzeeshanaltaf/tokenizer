@@ -27,6 +27,12 @@ export function Navbar() {
           >
             Privacy
           </Link>
+          <Link
+            href="/contact"
+            className="text-[0.8125rem] text-muted-foreground transition-colors hover:text-foreground"
+          >
+            Contact
+          </Link>
           <ThemeToggle />
         </div>
       </nav>

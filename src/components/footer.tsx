@@ -35,6 +35,12 @@ export function Footer() {
           >
             Privacy Policy
           </Link>
+          <Link
+            href="/contact"
+            className="text-foreground underline-offset-4 hover:text-primary hover:underline"
+          >
+            Contact
+          </Link>
           <p className="inline-flex items-center gap-2">
             <ShieldCheckIcon size={15} weight="bold" className="text-primary" />
             Counted on your device. Your text is never sent anywhere.
