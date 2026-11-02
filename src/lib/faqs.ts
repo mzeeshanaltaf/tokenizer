@@ -31,7 +31,7 @@ export const FAQS: Faq[] = [
   {
     question: "Is my text sent anywhere?",
     answer:
-      "No. Every tokenizer runs in your browser in a Web Worker. There is no server route, no API key, and no analytics on the text. The only network request the page ever makes is downloading a tokenizer file from Hugging Face when you pick a model that needs one, and the file size is shown before that download starts.",
+      "No. Every tokenizer runs in your browser in a Web Worker, so counting needs no server route and no API key. The page makes two kinds of network request, and your text is in neither: downloading a tokenizer file from Hugging Face when you pick a model that needs one, with the file size shown before that download starts, and a page view count sent to our self-hosted Umami analytics.",
   },
   {
     question: "Does the token count match what an API call will charge me?",
@@ -52,7 +52,7 @@ export const FAQS: Faq[] = [
  * tests so the table cannot drift away from the tokenizers actually shipping.
  */
 export const VOCAB_ROWS: Array<[string, string, string]> = [
-  ["GPT-5.x", "o200k_base", "200,006"],
+  ["GPT-6.x, GPT-5.x", "o200k_base", "200,006"],
   ["Gemma 3, and Gemini 3.x by proxy", "Gemma 3", "262,144"],
   ["Llama 4", "Llama 4", "200,000"],
   ["Llama 3.3, Llama 3.1", "Llama 3.1", "128,000"],

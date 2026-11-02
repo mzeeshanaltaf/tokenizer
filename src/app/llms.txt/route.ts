@@ -37,8 +37,8 @@ export function GET() {
 ${SITE_NAME} is a free, client-side token counter. Paste text, choose a model,
 and it reports the token count, the character, word, line and UTF-8 byte counts,
 the position of every token boundary, and the token IDs. Every tokenizer runs in
-a Web Worker in the browser. No API key, no server route, and the pasted text is
-never transmitted.
+a Web Worker in the browser. Counting needs no API key and no server, and the
+pasted text is never transmitted.
 
 ## The accuracy model
 

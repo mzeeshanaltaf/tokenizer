@@ -140,6 +140,15 @@ const EXACT_LOCAL_WHY =
 
 export const MODELS: ModelEntry[] = [
   {
+    id: "gpt-6.x",
+    name: "GPT-6.x",
+    provider: "openai",
+    tier: "exact",
+    source: { kind: "openai", encoding: "o200k_base" },
+    tokenizerName: "o200k_base",
+    why: "OpenAI has not published which tokenizer GPT-6 uses, so it was measured: on GPT-6 Astra, 6.1 Sol, 6.1 Terra and 6 Luna, the input tokens OpenAI reports and bills equal the o200k_base count on every one of 373 test texts (emoji, CJK, RTL scripts, code, digit runs), exactly as GPT-5.x does. One entry covers the whole line.",
+  },
+  {
     id: "gpt-5.x",
     name: "GPT-5.x",
     provider: "openai",
@@ -301,7 +310,7 @@ export const MODELS: ModelEntry[] = [
   },
 ];
 
-export const DEFAULT_MODEL_ID = "gpt-5.x";
+export const DEFAULT_MODEL_ID = "gpt-6.x";
 
 const BY_ID = new Map(MODELS.map((model) => [model.id, model]));
 

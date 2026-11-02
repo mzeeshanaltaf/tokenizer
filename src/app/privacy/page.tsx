@@ -20,8 +20,8 @@ export default function PrivacyPage() {
 
       <p className="mt-6 text-[1rem] leading-[1.7]">
         Text you paste into {SITE_NAME} never leaves your device. Not to us, not
-        to a model provider, not to anyone. There is no server route in this
-        application that could receive it.
+        to a model provider, not to anyone. The counter has no server route that
+        could receive it.
       </p>
 
       <Section title="How the counting works">
@@ -33,7 +33,7 @@ export default function PrivacyPage() {
         </p>
       </Section>
 
-      <Section title="The one network request">
+      <Section title="Tokenizer downloads">
         <p>
           Some models need a tokenizer file that is too large to bundle with the
           page. When you select one of those models for the first time, the file
@@ -67,13 +67,33 @@ export default function PrivacyPage() {
 
       <Section title="Analytics and cookies">
         <p>
-          There are none. No analytics script, no advertising, no tracking
-          cookies, no third-party embeds. The fonts are self-hosted at build
-          time, so viewing this page does not contact a font CDN either.
+          This site counts page views with Umami, an analytics tool we host
+          ourselves at analytics.zeeshanai.cloud. Each page view sends the page
+          URL and title, the referring site, your screen size, your browser
+          language, and the site&apos;s hostname. As with any web request, that
+          server also sees your IP address and browser details.
         </p>
         <p>
-          A tool whose entire premise is that nothing leaves your device would
-          not be worth much if it shipped a script that watched you use it.
+          Your pasted text is not part of this. The analytics script does not
+          read the text box, and the text never appears in the page URL or title.
+          It sets no cookies.
+        </p>
+        <p>
+          There is no advertising and there are no third-party embeds. The fonts
+          are self-hosted at build time, so viewing this page does not contact a
+          font CDN either.
+        </p>
+      </Section>
+
+      <Section title="The contact form">
+        <p>
+          The contact form is the one place that sends what you type, and only
+          when you submit it. Your name, email address and message go through our
+          server to an n8n workflow, so we can read your message and reply.
+        </p>
+        <p>
+          To limit spam, your IP address is checked against a limit of five
+          submissions every ten minutes, using Upstash, a hosted database service.
         </p>
       </Section>
 

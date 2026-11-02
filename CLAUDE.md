@@ -2,8 +2,9 @@
 
 A client-side token counter. Paste text, pick a model, get the token count, the
 character/word/line/byte counts, the position of every token boundary, and the
-token IDs. Every tokenizer runs in a Web Worker in the browser. There is no API
-route in this app and no way for pasted text to reach a server.
+token IDs. Every tokenizer runs in a Web Worker in the browser. The only API route
+is `/api/contact`, for the contact form, and pasted text has no way to reach a
+server.
 
 Design context lives in `PRODUCT.md` and `DESIGN.md`. Read them before touching UI.
 
@@ -24,6 +25,7 @@ npm run lint               # ESLint, must pass with zero warnings
 npm test                   # Vitest
 npm run verify:tokenizers  # re-check every HF tokenizer: 200, CORS, size, round trip
 npm run calibrate:anthropic ./corpus   # refit the Claude estimator, needs a key
+npm run verify:openai ./corpus         # check OpenAI models count as o200k_base, needs a key
 ```
 
 ## The accuracy model
@@ -141,9 +143,11 @@ breaks. Remove either and horizontal overflow comes straight back.
   none`. JetBrains Mono renders `=>` as one glyph, which would show the user a
   character that is not in their text.
 - **No em dashes in user-facing strings.** Use commas, colons, or parentheses.
-- **No analytics, no third-party scripts, no remote fonts.** The product promise
-  is that nothing leaves the device; shipping a tracker would contradict it.
-  Fonts are self-hosted by `next/font` at build time.
+- **No third-party scripts, no remote fonts.** The product promise is that pasted
+  text never leaves the device. The one analytics script is self-hosted, cookieless
+  Umami, which counts page views and never sees the text; the privacy page lists
+  what it sends, so change that copy if this changes. Fonts are self-hosted by
+  `next/font` at build time.
 
 ## Accessibility
 

@@ -4,8 +4,8 @@ A token counter that is exact where it can be and honest where it cannot.
 
 Paste text, pick a model, and get the token count, the character, word, line and
 UTF-8 byte counts, the position of every token boundary, and the token IDs.
-Everything runs in your browser. No API key, no server route, and the text you
-paste is never transmitted.
+Counting runs entirely in your browser. No API key, no server involved, and the
+text you paste is never transmitted.
 
 ## Why this exists
 
@@ -30,6 +30,7 @@ wrong integers is worse than showing nothing.
 
 | Provider | Models | Tokenizer | Tier |
 |---|---|---|---|
+| OpenAI | GPT-6.x (Astra, 6.1 Sol, 6.1 Terra, Luna, one entry) | `o200k_base` | exact (measured) |
 | OpenAI | GPT-5.x (every 5.x point release and size, one entry) | `o200k_base` | exact |
 | Anthropic | Opus 5, Sonnet 5, Fable 5, Haiku 4.5 | calibrated estimator | **estimate** |
 | Google | Gemma 3 | Gemma 3 | exact |
@@ -46,8 +47,23 @@ Models superseded by a newer generation already in this table (o3, GPT-4.1,
 GPT-4o, gpt-oss, Gemini 2.5, Claude Opus/Sonnet 4.x, DeepSeek-V3/R1, and
 anything else more than a year old) have been dropped rather than kept as
 dead weight. Where several point releases or sizes of the same current model
-share one tokenizer byte-for-byte (GPT-5.x, Gemini 3.x, GLM-5.x), they are
-listed once instead of once per name.
+share one tokenizer byte-for-byte (GPT-6.x, GPT-5.x, Gemini 3.x, GLM-5.x), they
+are listed once instead of once per name.
+
+OpenAI publishes no tokenizer mapping for GPT-6 (tiktoken has none), so GPT-6.x
+is marked exact on measurement rather than on a published mapping. Every
+GPT-6.x model's reported and billed input tokens equal `o200k_base` plus a
+constant 6-token message framing on all 352 probe strings and 21 corpus files,
+identical to the `gpt-5.5` control. Re-run it when OpenAI ships a new model:
+
+```bash
+npm run verify:openai ./corpus
+```
+
+It reads `OPENAI_API_KEY` from `.env.local`, counts the probes with the free
+`/responses/input_tokens` endpoint, and sends the corpus files as real
+`flex`-tier requests (a few cents) to check billed usage. Set
+`OPENAI_MODELS=a,b` to test other models; it exits non-zero on any mismatch.
 
 OpenAI encodings ship with the page. The rest are fetched from the Hugging Face
 Hub on first use, with the real file size shown before the download starts, then
@@ -101,14 +117,22 @@ the repository that talks to Anthropic.
 
 ## Privacy
 
-Text you paste never leaves your device. There is no API route in this
-application that could receive it, no analytics script, no advertising, no
-tracking cookies, and no third-party embeds. Fonts are self-hosted at build time,
-so viewing the page does not contact a font CDN either.
+Text you paste never leaves your device. The counter has no API route that could
+receive it, and there is no advertising, no tracking cookies, and no third-party
+embeds. Fonts are self-hosted at build time, so viewing the page does not contact
+a font CDN either.
 
-The only network request the page makes is fetching a public tokenizer file from
-Hugging Face when you select a model that needs one. Your text is not part of
-that request.
+The page makes two kinds of network request, and your text is in neither:
+
+- **Tokenizer files.** A public file is fetched from Hugging Face when you select
+  a model that needs one.
+- **Page views.** Self-hosted, cookieless [Umami](https://umami.is) analytics
+  receives the page URL and title, referrer, screen size, browser language and
+  hostname. It loads only when `NEXT_PUBLIC_UMAMI_WEBSITE_ID` is set.
+
+The contact form is separate and only sends what you submit. `/api/contact`
+forwards the name, email and message to an n8n webhook, and rate-limits by IP
+address through Upstash.
 
 ## Development
 

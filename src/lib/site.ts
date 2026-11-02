@@ -32,8 +32,8 @@ export const SITE_TITLE = "Token Counter for GPT, Claude, Gemini & Llama";
 
 /** Meta description. Counted: 153 characters, under the 160 SERP cutoff. */
 export const SITE_DESCRIPTION =
-  "Count tokens for GPT-5, Claude, Gemini, Llama, Mistral, Qwen and DeepSeek. See token boundaries and IDs. Runs in your browser, your text never leaves it.";
+  "Count tokens for GPT-6, Claude, Gemini, Llama, Mistral, Qwen and DeepSeek. See token boundaries and IDs. Runs in your browser, your text never leaves it.";
 
 /** Shorter copy for social cards, which truncate around 125 characters. */
 export const SITE_DESCRIPTION_SHORT =
-  "Count tokens for GPT-5, Claude, Gemini and Llama. Exact where the tokenizer is published, honest where it is not.";
+  "Count tokens for GPT-6, Claude, Gemini and Llama. Exact where the tokenizer is published, honest where it is not.";

@@ -93,9 +93,10 @@ looking. Not in a tooltip, not in the footer.
 
 5. **Practice what you preach.** A tool whose entire premise is "nothing leaves
    your device" cannot ship third-party analytics scripts, remote fonts it did
-   not need, or a network request it cannot explain. The one deliberate exception,
-   downloading a tokenizer from Hugging Face, is announced with its real file
-   size before it happens.
+   not need, or a network request it cannot explain. There are two deliberate
+   requests, and pasted text is in neither: downloading a tokenizer from Hugging
+   Face, announced with its real file size before it happens, and a page view
+   count to self-hosted Umami, disclosed on the privacy page.
 
 ## Accessibility & Inclusion
 
